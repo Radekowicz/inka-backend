@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inkadb
+    username: postgres
+    password: changeme
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect

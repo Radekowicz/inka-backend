@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+
+  inkadb:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: "changeme"
+      POSTGRES_DB: inkadb
+    ports:
+      - 5432:5432
