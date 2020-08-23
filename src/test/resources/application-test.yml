@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:hsqldb:file:/tmp/dataservicedb
+    username: sa
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+    database-platform: org.hibernate.dialect.HSQLDialect
