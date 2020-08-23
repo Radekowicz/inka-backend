@@ -23,12 +23,12 @@ public class ExampleController {
     return "Hello from the inka backend";
   }
 
-  @GetMapping("/tick")
+  @GetMapping("/api/tick")
   public Integer getTick() {
     return entityManager.find(Tick.class, 1).getValue();
   }
 
-  @PostMapping("/tick")
+  @PostMapping("/api/tick")
   public void increaseTick() {
     Tick tick = entityManager.find(Tick.class, 1);
     tick.setValue(tick.getValue() + 1);
