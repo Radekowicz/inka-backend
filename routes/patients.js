@@ -18,6 +18,10 @@ router.post("/", async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     birthdate: req.body.birthdate,
+    firstAppointment: req.body.firstAppointment,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    address: req.body.address,
   });
 
   try {
