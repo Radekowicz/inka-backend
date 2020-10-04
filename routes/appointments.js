@@ -24,12 +24,8 @@ router.post("/", async (req, res) => {
   try {
     console.log(appointment);
     const savedAppointment = await appointment.save();
-    console.log("zapisałem")
-    console.log(savedAppointment)
     res.json(savedAppointment);
   } catch (err) {
-    console.log("errorrrrrrr");
-    console.log(err);
     res.json({ message: err });
   }
 });
