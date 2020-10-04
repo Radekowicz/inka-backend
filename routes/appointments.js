@@ -30,5 +30,19 @@ router.post("/", async (req, res) => {
   }
 });
 
+//DELETE APPOINTMENT
+router.delete("/:appointmentId", async (req, res) => {
+  try {
+    const removedAppointment = await Appointment.remove({
+      _id: req.params.appointmentId,
+    });
+    console.log("usunąłem");
+
+    console.log(removedAppointment);
+    res.json(removedAppointment);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
 module.exports = router;
