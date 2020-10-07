@@ -23,12 +23,14 @@ router.post("/", async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     address: req.body.address,
   });
-
   try {
     const savedPatient = await patient.save();
+    console.log("saved patient");
+    console.log(savedPatient);
     res.json(savedPatient);
   } catch (err) {
     res.json({ message: err });
+    console.log("blaaaa");
   }
 });
 
