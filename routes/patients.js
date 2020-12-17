@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//GET SPECIFIC POST
+//GET SPECIFIC PATIENT
 router.get("/:patientId", async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.patientId);
@@ -44,7 +44,7 @@ router.get("/:patientId", async (req, res) => {
   }
 });
 
-//DELETE POST
+//DELETE PATIENT
 router.delete("/:patientId", async (req, res) => {
   try {
     const removedPatient = await Patient.remove({ _id: req.params.patientId });
