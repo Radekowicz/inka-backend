@@ -5,7 +5,7 @@ var dayjs = require('dayjs')
 
 
 
-//GET APPOINTMENTS
+//GET APPOINTMENTS BY DATE
 router.get("/", async (req, res) => {
   try {
     //console.log(req.query.date);
@@ -20,6 +20,19 @@ router.get("/", async (req, res) => {
       const appointments = await Appointment.find().populate("patient");
       res.json(appointments);
     }
+   } catch (err) {
+     res.json({ message: err });
+   }
+});
+
+//GET APPOINTMENTS BY PATIENT
+router.get("/:patientId", async (req, res) => {
+  try {
+    //console.log(req.query.date);
+
+    const appointments = await Appointment.find({ patient: {_id: req.params.patientId} }).populate("patient");
+    res.json(appointments);
+
    } catch (err) {
      res.json({ message: err });
    }
