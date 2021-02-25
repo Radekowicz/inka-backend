@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 //GET TYPES BY DOCTOR
 router.get("/:doctorId", async (req, res) => {
     try {
-      const appointmentsTypes = await AppointmentType.find({ doctor: {_id: req.params.doctorId} }).populate("doctor");
+      const appointmentsTypes = await AppointmentType.find({ doctor: {_id: req.params.doctorId} }).populate("user");
       res.json(appointmentsTypes);
     } catch (err) {
       res.json({ message: err });
