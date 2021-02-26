@@ -12,10 +12,10 @@ router.get("/", async (req, res) => {
     }
   });
 
-  //GET ALL User BY USERNAME
-router.get("/:username", async (req, res) => {
+  //GET ALL User BY ID
+router.get("/:userId", async (req, res) => {
     try {
-      const users = await User.find({ username: req.params.username});
+      const users = await User.find({ _id: req.params.usserId});
       res.json(users);
     } catch (err) {
       res.json({ message: err });
