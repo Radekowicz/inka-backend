@@ -4,6 +4,15 @@ const Appointment = require("../models/appointment");
 var dayjs = require('dayjs')
 
 
+//GET ALL appointments
+router.get("/", async (req, res) => {
+  try {
+    const appointments = await Appointment.find().populate("patient").populate("type").populate("doctor");
+    res.json(appointments);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
 //GET APPOINTMENTS BY DATE
 router.get("/", async (req, res) => {
@@ -13,11 +22,12 @@ router.get("/", async (req, res) => {
     const dateTomorrow = new Date(req.query.date);
     dateTomorrow.setDate(dateTomorrow.getDate() + 1);
     if (req.query.date) {
-      const appointments = await Appointment.find({ startDate: {$gt: date.toISOString(), $lt: dateTomorrow.toISOString()} }).populate("patient");
+      const appointments = await Appointment.find({ startDate: {$gt: date.toISOString(), $lt: dateTomorrow.toISOString()} })
+      .populate("patient").populate("type").populate("doctor");
       res.json(appointments);
     }
     else {
-      const appointments = await Appointment.find().populate("patient");
+      const appointments = await Appointment.find().populate("patient").populate("type").populate("doctor");
       res.json(appointments);
     }
    } catch (err) {
@@ -25,12 +35,14 @@ router.get("/", async (req, res) => {
    }
 });
 
+
+
 //GET APPOINTMENTS BY PATIENT
 router.get("/:patientId", async (req, res) => {
   try {
     //console.log(req.query.date);
 
-    const appointments = await Appointment.find({ patient: {_id: req.params.patientId} }).populate("patient");
+    const appointments = await Appointment.find({ patient: {_id: req.params.patientId} }).populate("patient").populate("type").populate("doctor");
     res.json(appointments);
 
    } catch (err) {
@@ -43,8 +55,9 @@ router.get("/:patientId", async (req, res) => {
 //ADD APPOINTMENT
 router.post("/", async (req, res) => {
   const appointment = new Appointment({
-    title: req.body.title,
+    type: req.body.type,
     patient: req.body.patient,
+    doctor: req.body.doctor,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
   });

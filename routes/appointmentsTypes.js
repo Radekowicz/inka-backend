@@ -6,7 +6,7 @@ const AppointmentType = require("../models/appointmentType");
 //GET ALL TYPES
 router.get("/", async (req, res) => {
     try {
-      const appointmentsTypes = await AppointmentType.find().populate("doctor");
+      const appointmentsTypes = await AppointmentType.find();
       res.json(appointmentsTypes);
     } catch (err) {
       res.json({ message: err });
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 //GET TYPES BY DOCTOR
 router.get("/:doctorId", async (req, res) => {
     try {
-      const appointmentsTypes = await AppointmentType.find({ doctor: {_id: req.params.doctorId} }).populate("user");
+      const appointmentsTypes = await AppointmentType.find({ doctor: {_id: req.params.doctorId} });
       res.json(appointmentsTypes);
     } catch (err) {
       res.json({ message: err });
@@ -30,6 +30,8 @@ router.post("/", async (req, res) => {
     const appointmentType = new AppointmentType({
       label: req.body.label,
       doctor: req.body.doctor,
+      color: req.body.color,
+      price: req.body.price
     });
   
     try {
@@ -40,5 +42,15 @@ router.post("/", async (req, res) => {
       res.json({ message: err });
     }
   });
+
+  //DELETE TYPE
+router.delete("/:typeId", async (req, res) => {
+  try {
+    const removedAppointmentType = await AppointmentType.remove({ _id: req.params.typeId });
+    res.json(removedAppointmentType);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
   module.exports = router;
