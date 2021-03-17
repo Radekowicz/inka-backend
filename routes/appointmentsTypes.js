@@ -25,6 +25,25 @@ router.get("/:doctorId", async (req, res) => {
   });
 
 
+//UPDATE TYPE 
+router.patch("/:typeId", async (req, res) => {
+  try {
+    const updatedType = await AppointmentType.updateOne(
+      { _id: req.params.typeId },
+      { $set: { 
+        label: req.body.label,
+        doctor: req.body.doctor,
+        color: req.body.color,
+        price: req.body.price
+       } }
+    );
+    res.json(updatedType);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+
 //ADD TYPE
 router.post("/", async (req, res) => {
     const appointmentType = new AppointmentType({
@@ -52,5 +71,6 @@ router.delete("/:typeId", async (req, res) => {
     res.json({ message: err });
   }
 });
+
 
   module.exports = router;
