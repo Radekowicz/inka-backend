@@ -16,21 +16,30 @@ var dayjs = require("dayjs")
 //GET APPOINTMENTS BY DATE and by user(then return only after date)
 router.get("/", async (req, res) => {
   try {
-    console.log(req.query.date)
-    console.log(req.query.patient)
     const date = new Date(req.query.date)
     const dateTomorrow = new Date(req.query.date)
     dateTomorrow.setDate(dateTomorrow.getDate() + 1)
 
-    if (req.query.patient && req.query.date) {
-      const appointments = await Appointment.find({
-        startDate: { $gt: date.toISOString() },
-        patient: { _id: req.query.patient },
-      })
-        .populate("patient")
-        .populate("type")
-        .populate("doctor")
-      res.json(appointments)
+    if (req.query.patient && req.query.date && req.query.time) {
+      if (req.query.time == "after") {
+        const appointments = await Appointment.find({
+          startDate: { $gt: date.toISOString() },
+          patient: { _id: req.query.patient },
+        })
+          .populate("patient")
+          .populate("type")
+          .populate("doctor")
+        res.json(appointments)
+      } else if (req.query.time == "before") {
+        const appointments = await Appointment.find({
+          startDate: { $lt: date.toISOString() },
+          patient: { _id: req.query.patient },
+        })
+          .populate("patient")
+          .populate("type")
+          .populate("doctor")
+        res.json(appointments)
+      }
     } else if (req.query.date) {
       const appointments = await Appointment.find({
         startDate: { $gt: date.toISOString(), $lt: dateTomorrow.toISOString() },
