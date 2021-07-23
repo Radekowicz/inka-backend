@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const AppointmentTypeSchema = mongoose.Schema({
   label: {
@@ -7,7 +7,7 @@ const AppointmentTypeSchema = mongoose.Schema({
   },
   doctor: {
     type: mongoose.ObjectId,
-    ref: "Users",
+    ref: 'Users',
     required: true,
   },
   color: {
@@ -20,4 +20,4 @@ const AppointmentTypeSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("AppointmentsTypes", AppointmentTypeSchema);
+module.exports = mongoose.model('AppointmentsTypes', AppointmentTypeSchema);

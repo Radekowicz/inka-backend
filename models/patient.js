@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
 
 const PatientSchema = mongoose.Schema({
   firstName: {
@@ -32,12 +32,12 @@ const PatientSchema = mongoose.Schema({
   },
   appointmentType: {
     type: mongoose.ObjectId,
-    ref: "AppointmentsTypes",
+    ref: 'AppointmentsTypes',
   },
   doctor: {
     type: mongoose.ObjectId,
-    ref: "Users",
+    ref: 'Users',
   },
-})
+});
 
-module.exports = mongoose.model("Patients", PatientSchema)
+module.exports = mongoose.model('Patients', PatientSchema);

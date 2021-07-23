@@ -1,19 +1,19 @@
-const express = require("express")
-const router = express.Router()
-const Patient = require("../models/patient")
+const express = require('express');
+const router = express.Router();
+const Patient = require('../models/patient');
 
 //GET ALL PATIENTS
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const patients = await Patient.find().populate("appointmentType")
-    res.json(patients)
+    const patients = await Patient.find().populate('appointmentType');
+    res.json(patients);
   } catch (err) {
-    res.json({ message: err })
+    res.json({ message: err });
   }
-})
+});
 
 //ADD PATIENT
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   const patient = new Patient({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -24,49 +24,51 @@ router.post("/", async (req, res) => {
     address: req.body.address,
     password: req.body.password,
     appointmentType: req.body.appointmentType,
-  })
+  });
   try {
-    const savedPatient = await patient.save()
-    console.log("saved patient")
-    console.log(savedPatient)
-    res.json(savedPatient)
+    const savedPatient = await patient.save();
+    console.log('saved patient');
+    console.log(savedPatient);
+    res.json(savedPatient);
   } catch (err) {
-    res.json({ message: err })
-    console.log("blaaaa")
+    res.json({ message: err });
+    console.log('blaaaa');
   }
-})
+});
 
 //GET SPECIFIC PATIENT
-router.get("/:patientId", async (req, res) => {
+router.get('/:patientId', async (req, res) => {
   try {
-    const patient = await Patient.findById(req.params.patientId).populate("appointmentType")
-    res.json(patient)
+    const patient = await Patient.findById(req.params.patientId).populate(
+      'appointmentType'
+    );
+    res.json(patient);
   } catch (err) {
-    res.json({ message: err })
+    res.json({ message: err });
   }
-})
+});
 
 //DELETE PATIENT
-router.delete("/:patientId", async (req, res) => {
+router.delete('/:patientId', async (req, res) => {
   try {
-    const removedPatient = await Patient.remove({ _id: req.params.patientId })
-    res.json(removedPatient)
+    const removedPatient = await Patient.remove({ _id: req.params.patientId });
+    res.json(removedPatient);
   } catch (err) {
-    res.json({ message: err })
+    res.json({ message: err });
   }
-})
+});
 
 //UPDATE POST
-router.patch("/:patientId", async (req, res) => {
+router.patch('/:patientId', async (req, res) => {
   try {
     const updatedPatient = await Patient.updateOne(
       { _id: req.params.patientId },
-      { $set: { firstName: req.body.title } }
-    )
-    res.json(updatedPatient)
+      { $set: { appointmentType: req.body.appointmentType } }
+    );
+    res.json(updatedPatient);
   } catch (err) {
-    res.json({ message: err })
+    res.json({ message: err });
   }
-})
+});
 
-module.exports = router
+module.exports = router;
