@@ -21,6 +21,12 @@ async function getUserById(req, res) {
 
 async function addUser(req, res) {
   try {
+    if (await User.findOne({ email: req.body.email })) {
+      return res.status(400).send({
+        message: "This email address is already being used",
+      });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -32,7 +38,8 @@ async function addUser(req, res) {
       password: hashedPassword,
     });
 
-    await user.save();
+    const savedUser = await user.save();
+    res.json(savedUser);
   } catch (err) {
     console.log(err);
     res.json({ message: err });
