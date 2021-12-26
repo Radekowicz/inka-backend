@@ -1,74 +1,27 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Patient = require('../models/patient');
+
+const {
+  getAllPatients,
+  getPatientById,
+  addPatient,
+  deletePatient,
+  updatePatient,
+} = require("../controllers/patientsController");
 
 //GET ALL PATIENTS
-router.get('/', async (req, res) => {
-  try {
-    const patients = await Patient.find().populate('appointmentType');
-    res.json(patients);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
+router.get("/", getAllPatients);
 
 //ADD PATIENT
-router.post('/', async (req, res) => {
-  const patient = new Patient({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    birthdate: req.body.birthdate,
-    firstAppointment: req.body.firstAppointment,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    address: req.body.address,
-    password: req.body.password,
-    appointmentType: req.body.appointmentType,
-  });
-  try {
-    const savedPatient = await patient.save();
-    console.log('saved patient');
-    console.log(savedPatient);
-    res.json(savedPatient);
-  } catch (err) {
-    res.json({ message: err });
-    console.log('blaaaa');
-  }
-});
+router.post("/", addPatient);
 
 //GET SPECIFIC PATIENT
-router.get('/:patientId', async (req, res) => {
-  try {
-    const patient = await Patient.findById(req.params.patientId).populate(
-      'appointmentType'
-    );
-    res.json(patient);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
+router.get("/:patientId", getPatientById);
 
 //DELETE PATIENT
-router.delete('/:patientId', async (req, res) => {
-  try {
-    const removedPatient = await Patient.remove({ _id: req.params.patientId });
-    res.json(removedPatient);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
+router.delete("/:patientId", deletePatient);
 
 //UPDATE POST
-router.patch('/:patientId', async (req, res) => {
-  try {
-    const updatedPatient = await Patient.updateOne(
-      { _id: req.params.patientId },
-      { $set: { appointmentType: req.body.appointmentType } }
-    );
-    res.json(updatedPatient);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
+router.patch("/:patientId", updatePatient);
 
 module.exports = router;
