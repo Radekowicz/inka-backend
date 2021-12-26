@@ -29,11 +29,15 @@ router.post(
   }
 );
 
-router.post("/logout", function (req, res) {
+router.post("/logout", async function (req, res) {
   // req.logout();
   req.session.destroy((err) => {
     res.clearCookie("connect.sid");
   });
+});
+
+router.get("/isAuthorized", async function (req, res) {
+  res.json(req.isAuthenticated());
 });
 
 module.exports = router;

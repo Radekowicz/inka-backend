@@ -39,13 +39,4 @@ async function addUser(req, res) {
   }
 }
 
-// async function authenticateUser(req, res) {
-//   try {
-//     const savedUser = await user.save();
-//     res.json(savedUser);
-//   } catch (err) {
-//     res.json({ message: err });
-//   }
-// }
-
 module.exports = { getAllUsers, getUserById, addUser };
