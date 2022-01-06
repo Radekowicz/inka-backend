@@ -2,10 +2,12 @@
 
 ## Odpalanie bazy:
 
-`docker-compose up --build -d mongodb` 
+`docker-compose up --build -d mongodb`
 
-## Wyłączenie bazy
+## Wyłączenie bazy:
+
 `docker-compose down`
 
-## Inicijalne dane
+## Inicijalne dane:
+
 Znajdują się w `mongo-init.js`

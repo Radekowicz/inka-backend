@@ -5,17 +5,17 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 //Import Routes
-const homeRoutes = require("./routes/home");
-const patientsRoutes = require("./routes/patients");
-const appointmentsRoutes = require("./routes/appointments");
-const appointmentsTypesRoutes = require("./routes/appointmentsTypes");
-const usersRoutes = require("./routes/users");
+const homeRoutes = require("./src/routes/home");
+const patientsRoutes = require("./src/routes/patients");
+const appointmentsRoutes = require("./src/routes/appointments");
+const appointmentsTypesRoutes = require("./src/routes/appointmentsTypes");
+const usersRoutes = require("./src/routes/users");
 
 const session = require("express-session");
 const flash = require("express-flash");
 
 const passport = require("passport");
-const initializePassport = require("./config/passport-config");
+const initializePassport = require("./src/config/passport-config");
 
 const allowUrl = ["/api/users/auth", "/api/users/register"];
 
@@ -42,6 +42,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 600000 },
   })
 );
 app.use(passport.initialize());
