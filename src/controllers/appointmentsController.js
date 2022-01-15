@@ -13,8 +13,7 @@ async function getAppointmentsByDateAndUser(req, res) {
       if (req.query.time === "after") {
         const appointments = await Appointment.find({
           startDate: { $gt: date.toISOString() },
-          patient: { _id: req.query.patient },
-          doctor: loggedUserId,
+          patient: { _id: loggedUserId },
         })
           .populate("patient")
           .populate("type")
@@ -23,8 +22,7 @@ async function getAppointmentsByDateAndUser(req, res) {
       } else if (req.query.time === "before") {
         const appointments = await Appointment.find({
           startDate: { $lt: date.toISOString() },
-          patient: { _id: req.query.patient },
-          doctor: loggedUserId,
+          patient: { _id: loggedUserId },
         })
           .populate("patient")
           .populate("type")
@@ -46,26 +44,60 @@ async function getAppointmentsByDateAndUser(req, res) {
         res.json(appointments);
       }
     } else if (req.query.date) {
-      const appointments = await Appointment.find({
+      const appointmentsDoctor = await Appointment.find({
         startDate: {
           $gt: date.toISOString(),
           $lt: dateTomorrow.toISOString(),
-          doctor: loggedUserId,
         },
+        doctor: loggedUserId,
       })
         .populate("patient")
         .populate("type")
         .populate("doctor");
-      res.json(appointments);
-    } else {
-      const appointments = await Appointment.find({ doctor: loggedUserId })
+
+      const appointmentsPatient = await Appointment.find({
+        startDate: {
+          $gt: date.toISOString(),
+          $lt: dateTomorrow.toISOString(),
+        },
+        patient: loggedUserId,
+      })
         .populate("patient")
         .populate("type")
         .populate("doctor");
+
+      console.log(appointmentsDoctor);
+      console.log(appointmentsPatient);
+
+      const appointments =
+        appointmentsDoctor.length > 0
+          ? appointmentsDoctor
+          : appointmentsPatient;
+      res.json(appointments);
+    } else {
+      const appointmentsDoctor = await Appointment.find({
+        doctor: loggedUserId,
+      })
+        .populate("patient")
+        .populate("type")
+        .populate("doctor");
+
+      const appointmentsPatient = await Appointment.find({
+        patient: loggedUserId,
+      })
+        .populate("patient")
+        .populate("type")
+        .populate("doctor");
+
+      const appointments =
+        appointmentsDoctor.length > 0
+          ? appointmentsDoctor
+          : appointmentsPatient;
       res.json(appointments);
     }
   } catch (err) {
     res.json({ message: err });
+    console.log(err);
   }
 }
 
@@ -83,6 +115,7 @@ async function getAppointmentsByPatient(req, res) {
     res.json(appointments);
   } catch (err) {
     res.json({ message: err });
+    console.log(error);
   }
 }
 

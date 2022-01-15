@@ -17,7 +17,12 @@ const flash = require("express-flash");
 const passport = require("passport");
 const initializePassport = require("./src/config/passport-config");
 
-const allowUrl = ["/api/users/auth", "/api/users/register"];
+const allowUrl = [
+  "/api/users/auth",
+  "/api/users/register",
+  "/api/patients/auth",
+  "/api/patients/register",
+];
 
 const authenticationMiddleware =
   (whiteList = []) =>
@@ -42,7 +47,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 600000 },
+    cookie: { maxAge: 6000000 },
   })
 );
 app.use(passport.initialize());

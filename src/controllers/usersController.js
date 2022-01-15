@@ -12,11 +12,15 @@ async function getAllUsers(req, res) {
 
 async function getUserById(req, res) {
   try {
-    const user = await User.find({ _id: req.params.userId });
+    const user = await User.findOne({ _id: req.params.userId });
     res.json(user);
   } catch (err) {
     res.json({ message: err });
   }
+}
+
+function generate4DigitCode() {
+  return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
 async function addUser(req, res) {
@@ -36,6 +40,7 @@ async function addUser(req, res) {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
+      officeId: generate4DigitCode(),
     });
 
     const savedUser = await user.save();
