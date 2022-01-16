@@ -22,6 +22,7 @@ async function updateType(req, res) {
           doctor: req.body.doctor,
           color: req.body.color,
           price: req.body.price,
+          duration: req.body.duration,
         },
       }
     );
@@ -37,6 +38,7 @@ async function addType(req, res) {
     doctor: req.body.doctor,
     color: req.body.color,
     price: req.body.price,
+    duration: req.body.duration,
   });
 
   try {
