@@ -1,4 +1,7 @@
 const Appointment = require("../models/appointment");
+const User = require("../models/user");
+const Patient = require("../models/patient");
+
 const dayjs = require("dayjs");
 
 async function getAppointmentsByDateAndUser(req, res) {
@@ -55,19 +58,18 @@ async function getAppointmentsByDateAndUser(req, res) {
         .populate("type")
         .populate("doctor");
 
+      const patient = await Patient.findOne({ _id: loggedUserId });
+
       const appointmentsPatient = await Appointment.find({
         startDate: {
           $gt: date.toISOString(),
           $lt: dateTomorrow.toISOString(),
         },
-        patient: loggedUserId,
+        doctor: patient.doctor,
       })
         .populate("patient")
         .populate("type")
         .populate("doctor");
-
-      console.log(appointmentsDoctor);
-      console.log(appointmentsPatient);
 
       const appointments =
         appointmentsDoctor.length > 0
