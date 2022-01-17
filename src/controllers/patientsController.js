@@ -1,6 +1,7 @@
 const Patient = require("../models/patient");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const dayjs = require("dayjs");
 
 async function getAllPatients(req, res) {
   try {
@@ -39,7 +40,6 @@ async function addPatient(req, res) {
     const officeId = req.body.officeId;
 
     const doctor = await User.findOne({ officeId: officeId });
-    console.log("doctor", doctor);
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.patient.password, salt);
@@ -49,11 +49,14 @@ async function addPatient(req, res) {
       lastName: req.body.patient.lastName,
       email: req.body.patient.email,
       password: hashedPassword,
-      // firstAppointment: new Date(),
-      // phoneNumber: req.body.patient.phoneNumber || "",
-      // appointmentType: req.body.patient.ppointmentType || "",
+      firstAppointment: new Date(),
+      phoneNumber: req.body.patient.phoneNumber,
+      birthdate: dayjs(req.body.patient.birthdate),
+      // appointmentType: req.body.patient.apointmentType ,
       doctor: doctor?._id,
     });
+
+    console.log(patient);
 
     const savedPatient = await patient.save();
     console.log("saved", savedPatient);
