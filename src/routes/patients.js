@@ -33,7 +33,6 @@ router.post(
     failureMessage: true,
   }),
   async function (req, res) {
-    // console.log(req.user);
     res.json(req.user);
   }
 );

@@ -59,7 +59,6 @@ async function addPatient(req, res) {
     console.log(patient);
 
     const savedPatient = await patient.save();
-    console.log("saved", savedPatient);
     res.json(savedPatient);
   } catch (err) {
     res.status(500).send({ error: err });

@@ -5,8 +5,6 @@ const bcrypt = require("bcrypt");
 
 const authenticateUser = async (email, password, done) => {
   try {
-    console.log("email", email);
-    console.log("password", password);
     const user =
       (await User.findOne({ email: email })) ||
       (await Patient.findOne({ email: email }));

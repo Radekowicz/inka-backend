@@ -143,8 +143,6 @@ async function deleteAppointment(req, res) {
     const removedAppointment = await Appointment.remove({
       _id: req.params.appointmentId,
     });
-
-    console.log(removedAppointment);
     res.json(removedAppointment);
   } catch (err) {
     res.json({ message: err });
