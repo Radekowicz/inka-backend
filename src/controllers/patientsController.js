@@ -56,8 +56,6 @@ async function addPatient(req, res) {
       doctor: doctor?._id,
     });
 
-    console.log(patient);
-
     const savedPatient = await patient.save();
     res.json(savedPatient);
   } catch (err) {

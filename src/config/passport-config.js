@@ -9,8 +9,6 @@ const authenticateUser = async (email, password, done) => {
       (await User.findOne({ email: email })) ||
       (await Patient.findOne({ email: email }));
 
-    console.log("user", user);
-
     if (await bcrypt.compare(password, user.password)) {
       return done(null, user);
     }
